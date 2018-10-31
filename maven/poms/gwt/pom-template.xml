@@ -8,7 +8,7 @@
 	<version>4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.google.gwt</groupId>
+    <groupId>lv.proofit.gwt</groupId>
     <artifactId>gwt</artifactId>
     <packaging>pom</packaging>
     <name>GWT</name>
@@ -26,27 +26,27 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.google.gwt</groupId>
+                <groupId>lv.proofit.gwt</groupId>
                 <artifactId>gwt-user</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.google.gwt</groupId>
+                <groupId>lv.proofit.gwt</groupId>
                 <artifactId>gwt-dev</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.google.gwt</groupId>
+                <groupId>lv.proofit.gwt</groupId>
                 <artifactId>gwt-codeserver</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.google.gwt</groupId>
+                <groupId>lv.proofit.gwt</groupId>
                 <artifactId>gwt-servlet</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.google.gwt</groupId>
+                <groupId>lv.proofit.gwt</groupId>
                 <artifactId>gwt-elemental</artifactId>
                 <version>${project.version}</version>
             </dependency>
