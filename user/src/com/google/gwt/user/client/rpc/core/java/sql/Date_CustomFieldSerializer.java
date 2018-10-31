@@ -1,54 +1,43 @@
-/*
- * Copyright 2008 Google Inc.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
 package com.google.gwt.user.client.rpc.core.java.sql;
+
+import java.sql.Date;
 
 import com.google.gwt.user.client.rpc.CustomFieldSerializer;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 
-import java.sql.Date;
+import lv.proofit.gwtext.common.serialization.date.DateParseException;
+import lv.proofit.gwtext.common.serialization.date.DateTimeFormatterFactory;
 
 /**
- * Custom field serializer for {@link java.sql.Date}. Similar to Time, we use
- * the three-arg constructor to account for variances in implementations of
- * Date.
+ * Custom field serializer for {@link java.sql.Date}.
+ * <p>
+ * Class overloads GWT's Date_CustomFieldSerializer. Mechanism of the GWT's custom serialization dictates that this
+ * class must be named this way, in this specific package and with all its static methods for compilation
+ * to be successful.
  */
-public final class Date_CustomFieldSerializer extends
-    CustomFieldSerializer<Date> {
+@SuppressWarnings("unused")
+public final class Date_CustomFieldSerializer extends CustomFieldSerializer<Date> {
 
-  @SuppressWarnings("unused")
-  public static void deserialize(SerializationStreamReader streamReader,
-      Date instance) {
-    // No fields
+  public static void deserialize(SerializationStreamReader streamReader, Date instance) {
+
   }
 
-  public static Date instantiate(SerializationStreamReader streamReader)
-      throws SerializationException {
-    return new Date(streamReader.readLong());
+  public static Date instantiate(SerializationStreamReader streamReader) throws SerializationException {
+    try {
+      return new Date(DateTimeFormatterFactory.get().parse(streamReader.readString()).getTime());
+    } catch (DateParseException e) {
+      throw new SerializationException(e);
+    }
   }
 
-  public static void serialize(SerializationStreamWriter streamWriter,
-      Date instance) throws SerializationException {
-    streamWriter.writeLong(instance.getTime());
+  public static void serialize(SerializationStreamWriter streamWriter, Date instance) throws SerializationException {
+    streamWriter.writeString(DateTimeFormatterFactory.get().format(instance));
   }
 
   @Override
-  public void deserializeInstance(SerializationStreamReader streamReader,
-      Date instance) throws SerializationException {
+  public void deserializeInstance(SerializationStreamReader streamReader, Date instance) {
     deserialize(streamReader, instance);
   }
 
@@ -58,14 +47,12 @@ public final class Date_CustomFieldSerializer extends
   }
 
   @Override
-  public Date instantiateInstance(SerializationStreamReader streamReader)
-      throws SerializationException {
+  public Date instantiateInstance(SerializationStreamReader streamReader) throws SerializationException {
     return instantiate(streamReader);
   }
 
   @Override
-  public void serializeInstance(SerializationStreamWriter streamWriter,
-      Date instance) throws SerializationException {
+  public void serializeInstance(SerializationStreamWriter streamWriter, Date instance) throws SerializationException {
     serialize(streamWriter, instance);
   }
 }
